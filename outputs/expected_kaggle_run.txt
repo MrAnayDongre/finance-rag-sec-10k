@@ -1,0 +1,169 @@
+Assignment 2: End-to-end-NLP-System-Building
+Project: Finance RAG over SEC 10-K Filings
+
+This file records a representative successful Kaggle run of the full pipeline.
+It is included as a lightweight reference artifact only.
+
+Environment note
+The full end-to-end system was developed and tested primarily on Kaggle because the final setup used dense retrieval together with a local Mistral 7B reader, which required GPU resources we did not have available for reliable local testing.
+
+Representative run summary
+
+Step 1: Load SEC parquet stream
+
+Step 2: Sample usable filings
+- Selected filings: 40
+
+Example sampled filings
+- 1852353_2022 | 2022 | 1852353 | 1852353_221050354_2022.htm
+- 107815_2022 | 2022 | 107815 | 107815_23655993_2022.htm
+- 1488139_2022 | 2022 | 1488139 | 1488139_23686214_2022.htm
+- 1425355_2022 | 2022 | 1425355 | 1425355_23945574_2022.htm
+- 1128928_2022 | 2022 | 1128928 | 1128928_23651135_2022.htm
+
+Step 3: Extract sections and KB chunks
+- Usable sections: 157
+- Saved KB chunks: 300
+
+Example extracted sections
+- 1852353_2022 | 2022 | ITEM_1
+- 1852353_2022 | 2022 | ITEM_1A
+- 1852353_2022 | 2022 | ITEM_7
+- 1852353_2022 | 2022 | ITEM_8
+- 107815_2022 | 2022 | ITEM_1
+- 107815_2022 | 2022 | ITEM_1A
+- 107815_2022 | 2022 | ITEM_7
+
+Step 4: Generate SEC metadata QA
+- Metadata QA pairs: 80
+
+Step 5: Generate deterministic section QA
+- Deterministic QA pairs before deduplication: 132
+
+Step 6: Merge and clean SEC QA
+- Final SEC QA pairs: 194
+
+Example SEC QA rows
+- Where is the company incorporated? -> the State of Delaware
+- What filing year is associated with filing 143... ? -> 2022
+- Where is the company headquartered? -> West Lafayette
+- What could be adversely affected? -> our brand and reputation
+- What is the SEC CIK for filing 1022408_2022? -> 1022408
+
+Step 7: Load SEC-generated train data
+- SEC normalized rows: 175
+
+Step 8: Load ConvFinQA QA
+- Loaded ConvFinQA from: train_turn.json
+- ConvFinQA normalized rows: 600
+
+Step 9: Load FinQA corpus contexts for KB
+- FinQA corpus columns: ['id', 'text']
+- FinQA corpus contexts: 380
+
+Step 10: Merge SEC QA + ConvFinQA QA
+- Combined training set created successfully
+
+Step 11: Load existing files for final RAG
+Cleaned dataset sizes
+- SEC train: 175
+- SEC dev: 19
+- Combined train: 475
+- Original KB chunks: 300
+
+Step 12: Build augmented knowledge base
+- Augmented KB size: 7270
+
+KB source distribution
+- sec_train_context: 2600
+- external_train_context: 2345
+- finqa_corpus_context: 2025
+- sec_chunks: 300
+
+Source dataset distribution
+- sec_generated: 2900
+- convfinqa: 2345
+- finqa_corpus: 2025
+
+Step 13: Build closed-book baseline
+Closed-book metrics
+- exact_match: 0.15789473684210525
+- f1: 0.24652014652014653
+- answer_recall: 0.2610275689223058
+- count: 19
+
+Step 14: Prepare dense retriever
+- Dense retriever loaded successfully
+- E5-base-v2 produced embeddings and FAISS search index
+
+Step 15: Load local reader
+- Using local model kind: mistral
+- Using local model path: /kaggle/input/models/mistral-ai/mistral/pytorch/7b-instruct-v0.1-hf/1
+- Local reader loaded successfully
+
+Step 16: Run final hybrid RAG system
+Final hybrid metrics
+- exact_match: 0.3157894736842105
+- f1: 0.3263157894736842
+- answer_recall: 0.3233082706766917
+- count: 19
+
+Result
+- The final hybrid RAG system outperformed the closed-book TF-IDF baseline on exact match, F1, and answer recall.
+
+Step 17: Create analysis artifacts
+- Analysis artifacts were created successfully
+
+Step 18: Generate submission outputs
+- Official staff questions not found
+- SEC dev questions were used as a smoke test
+
+Step 19: Write package files
+- Required submission package files were written
+
+Step 20: Save file manifest and zip submission folder
+Generated package contents included:
+- README.md
+- REPORT_INSTRUCTIONS.txt
+- artifacts/augmented_kb_chunks.csv
+- artifacts/cleaned_combined_train.csv
+- artifacts/cleaned_sec_dev.csv
+- artifacts/cleaned_sec_train.csv
+- artifacts/closed_book_metrics_by_question_type.csv
+- artifacts/closed_book_predictions.csv
+- artifacts/combined_train.csv
+- artifacts/combined_train.jsonl
+- artifacts/dense_augmented_rag_predictions.csv
+- artifacts/file_manifest.json
+- artifacts/final_hybrid_metrics_by_question_type.csv
+- artifacts/finance_all_qa.csv
+- artifacts/finance_dev_qa.csv
+- artifacts/finance_qa_with_context.jsonl
+- artifacts/finance_train_qa.csv
+- artifacts/knowledge_base_chunks.csv
+- artifacts/metrics_summary.json
+- artifacts/model_comparison_summary.json
+- artifacts/qualitative_examples.csv
+- artifacts/run_summary_sec_generation.json
+- artifacts/source_stats.json
+- artifacts/submission_inference_trace.csv
+- contributions.md
+- data/test/questions.txt
+- data/test/reference_answers.txt
+- data/train/questions.txt
+- data/train/reference_answers.txt
+- final_kaggle_notebook.py
+- github_url.txt
+- system_outputs/system_output_1.txt
+
+Final paths
+- Submission folder: /kaggle/working/BID
+- Submission zip: /kaggle/working/BID.zip
+
+Important note
+This representative run used smoke-test mode because the official staff test file was not available.
+
+When the official file becomes available, place it at:
+- /kaggle/input/staff-test/questions.txt
+
+Then rerun the notebook to generate the final submission-time system output.

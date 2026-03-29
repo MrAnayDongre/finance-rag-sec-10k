@@ -1,9 +1,12 @@
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
-outputs/
 artifacts/
-BID/
 *.zip
 .env
 .DS_Store
+
+/BID/
+
+outputs/*
+!outputs/expected_kaggle_run.txt
