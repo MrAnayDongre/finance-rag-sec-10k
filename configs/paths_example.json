@@ -1,0 +1,11 @@
+{
+  "project_name": "finance-rag-sec-10k",
+  "kaggle_staff_test_questions": "/kaggle/input/staff-test/questions.txt",
+  "kaggle_mistral_model_path": "/kaggle/input/models/mistral-ai/mistral/pytorch/7b-instruct-v0.1-hf/1",
+  "kaggle_qwen_model_path": "/kaggle/input/models/qwen-lm/qwen-3/transformers/8b-base/1",
+  "kaggle_output_root": "/kaggle/working",
+  "local_output_root": "./outputs",
+  "local_staff_test_questions": "./data/staff-test/questions.txt",
+  "local_mistral_model_path": "./models/mistral",
+  "local_qwen_model_path": "./models/qwen"
+}

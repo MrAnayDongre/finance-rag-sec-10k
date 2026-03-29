@@ -1,0 +1,12 @@
+datasets
+sentence-transformers
+faiss-cpu
+bitsandbytes
+accelerate
+scikit-learn
+pandas
+numpy
+tqdm
+transformers
+huggingface_hub
+torch
