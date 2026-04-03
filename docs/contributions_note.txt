@@ -1,7 +1,0 @@
-For the final submission package, contributions.md should clearly describe who did what.
-
-Team members:
-- Anay Dongre
-- Jay Kurade
-
-Jay is writing report.pdf.
